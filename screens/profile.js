@@ -28,7 +28,7 @@ const Profile = ({navigation}) => {
   const [edit, setEdit] = useState(false);
   const [editPhoto, setEditPhoto] = useState(false);
   const [editPhotoErr, setEditPhotoErr] = useState(false);
-  const [imagePresent, setImagePresent] = useState(false);
+  const [imagePresent, setImagePresent] = useState(true);
 
   const [deleteProfile, setDeleteProfile] = useState(false);
 
@@ -67,7 +67,7 @@ const Profile = ({navigation}) => {
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.imageHolder}>
             {imagePresent ? (
-              <ImageDisplay />
+              <ImageDisplay setImagePresent={setImagePresent} />
             ) : (
               <Image
                 source={require('../default_user.png')}

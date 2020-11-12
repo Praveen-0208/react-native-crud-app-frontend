@@ -1,20 +1,10 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {isAuthenticated} from '../backendHelper/authHelper';
 import API from '../backendHelper/backend';
 
-const ImageDisplay = () => {
+const ImageDisplay = ({setImagePresent}) => {
   const [authData, setAuthData] = useState('');
-  const imageRef = useRef();
-
-  const imgSource = require('../default_user.png');
-
-  const changeImgSource = () => {
-    console.log(authData);
-    imageRef.current.setNativeProps({
-      source: Image.resolveAssetSource(imgSource),
-    });
-  };
 
   const preloadAuthData = async () => {
     let authdata = await isAuthenticated();
@@ -29,11 +19,12 @@ const ImageDisplay = () => {
     <View>
       {authData !== '' && (
         <Image
-          ref={imageRef}
           source={{
             uri: `${API}/${authData.user.id}/photo?${new Date()}`,
           }}
-          onError={changeImgSource}
+          onError={() => {
+            setImagePresent(false);
+          }}
           style={styles.image}
           resizeMethod="scale"
           resizeMode="contain"
