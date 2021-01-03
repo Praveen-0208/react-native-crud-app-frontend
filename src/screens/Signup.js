@@ -11,7 +11,7 @@ import {
 } from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SignupCall} from '../backendHelper/authHelper';
-
+import styles from '../styles/screens/SignupStyles';
 const SignUp = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [toggle, setToggle] = useState(false);
@@ -168,27 +168,5 @@ const SignUp = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    paddingHorizontal: 20,
-    marginTop: Dimensions.get('window').height / 4,
-  },
-  signupText: {
-    marginTop: 10,
-    textAlign: 'center',
-    color: '#0A79DF',
-  },
-  dividerStyle: {
-    marginTop: 30,
-    width: 250,
-    alignSelf: 'center',
-  },
-  errorMsg: {
-    color: 'red',
-    textAlign: 'center',
-    marginVertical: 5,
-  },
-});
 
 export default SignUp;

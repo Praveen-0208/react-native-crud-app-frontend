@@ -3,7 +3,7 @@ import {Modal, Text, StyleSheet, View, ActivityIndicator} from 'react-native';
 import {Overlay, Button} from 'react-native-elements';
 import {isAuthenticated, signOut} from '../backendHelper/authHelper';
 import {deleteUserInfo} from '../backendHelper/userProfileHelper';
-
+import styles from '../styles/components/DeleteModalStyles';
 const DeleteModal = ({
   setDeleteProfile,
   signedIn = (temp) => {
@@ -83,20 +83,5 @@ const DeleteModal = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: 300,
-    height: 100,
-  },
-  modalText: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
-  col6: {
-    flex: 3,
-    margin: 30,
-  },
-});
 
 export default DeleteModal;

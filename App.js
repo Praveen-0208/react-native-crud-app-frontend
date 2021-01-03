@@ -5,13 +5,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Home from './screens/home';
-import SignIn from './screens/signin';
-import SignUp from './screens/signup';
-import Profile from './screens/profile';
+import Home from './src/screens/Home';
+import SignIn from './src/screens/Signin';
+import SignUp from './src/screens/Signup';
+import Profile from './src/screens/Profile';
 
-import authContext from './Context/authContext';
-import {isTokenExpired} from './backendHelper/authHelper';
+import authContext from './src/context/authContext';
+import {isTokenExpired} from './src/backendHelper/authHelper';
 import {Overlay} from 'react-native-elements';
 import {ActivityIndicator} from 'react-native';
 

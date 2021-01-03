@@ -8,16 +8,17 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import authContext from '../Context/authContext';
+import styles from '../styles/screens/ProfileStyles';
+import authContext from '../context/authContext';
 import {Button} from 'react-native-elements';
 import {getUserProfile} from '../backendHelper/userProfileHelper';
 import {isAuthenticated} from '../backendHelper/authHelper';
 
-import EditProfile from '../Components/editProfile';
-import EditPhoto from '../Components/editPhoto';
-import ImageDisplay from '../Components/imageDisplay';
-import HeaderComponent from '../Components/HeaderComponent';
-import DeleteModal from '../Components/deleteModal';
+import EditProfile from '../components/EditProfile';
+import EditPhoto from '../components/EditPhoto';
+import ImageDisplay from '../components/ImageDisplay';
+import HeaderComponent from '../components/HeaderComponent';
+import DeleteModal from '../components/DeleteModal';
 
 const Profile = ({navigation}) => {
   const isSignedIn = useContext(authContext);
@@ -70,7 +71,7 @@ const Profile = ({navigation}) => {
               <ImageDisplay setImagePresent={setImagePresent} />
             ) : (
               <Image
-                source={require('../default_user.png')}
+                source={require('../assets/images/default_user.png')}
                 style={styles.image}
                 resizeMethod="scale"
                 resizeMode="contain"
@@ -133,49 +134,5 @@ const Profile = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 20,
-    paddingBottom: 100,
-  },
-  imageHolder: {
-    alignSelf: 'center',
-  },
-  dataContainer: {
-    padding: 8,
-  },
-  dataItem: {
-    backgroundColor: '#EAF0F1',
-    borderColor: '#DAE0E2',
-    borderWidth: 1,
-    marginVertical: 10,
-    padding: 10,
-  },
-  title: {
-    fontWeight: 'bold',
-  },
-  text: {
-    fontSize: 15,
-  },
-  editBtn: {
-    marginVertical: 10,
-  },
-  editPhotoLink: {
-    textAlign: 'center',
-    marginVertical: 10,
-    color: '#0A79DF',
-  },
-  errMsg: {
-    color: 'red',
-    textAlign: 'center',
-  },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 300 / 2,
-  },
-});
 
 export default Profile;

@@ -1,8 +1,9 @@
 import React, {useContext} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import authContext from '../Context/authContext';
-import HeaderComponent from '../Components/HeaderComponent';
+import authContext from '../context/authContext';
+import HeaderComponent from '../components/HeaderComponent';
 
+import styles from '../styles/screens/HomeStyles';
 const Home = () => {
   const isSignedIn = useContext(authContext);
 
@@ -15,13 +16,5 @@ const Home = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
-  },
-});
 
 export default Home;

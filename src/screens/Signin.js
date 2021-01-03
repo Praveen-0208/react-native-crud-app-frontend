@@ -17,8 +17,8 @@ import {
 } from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SignInCall} from '../backendHelper/authHelper';
-import authContext from '../Context/authContext';
-
+import authContext from '../context/authContext';
+import styles from '../styles/screens/SigninStyles';
 const SignIn = ({navigation}) => {
   const setLoginFlag = useContext(authContext);
   const [error, setError] = useState(false);
@@ -114,27 +114,5 @@ const SignIn = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    paddingHorizontal: 20,
-    marginTop: Dimensions.get('window').height / 3,
-  },
-  signupText: {
-    marginTop: 10,
-    textAlign: 'center',
-    color: '#0A79DF',
-  },
-  dividerStyle: {
-    marginTop: 30,
-    width: 250,
-    alignSelf: 'center',
-  },
-  errorMsg: {
-    color: 'red',
-    textAlign: 'center',
-    marginVertical: 5,
-  },
-});
 
 export default SignIn;

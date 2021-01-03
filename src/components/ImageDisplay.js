@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {isAuthenticated} from '../backendHelper/authHelper';
+import styles from '../styles/components/ImageDisplayStyles';
 import API from '../backendHelper/backend';
 
 const ImageDisplay = ({setImagePresent}) => {
@@ -33,13 +34,5 @@ const ImageDisplay = ({setImagePresent}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 300 / 2,
-  },
-});
 
 export default ImageDisplay;

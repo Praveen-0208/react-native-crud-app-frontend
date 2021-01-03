@@ -4,7 +4,7 @@ import {BottomSheet, Button, Overlay} from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import {isAuthenticated} from '../backendHelper/authHelper';
 import {removePhoto, uploadPhoto} from '../backendHelper/userProfileHelper';
-
+import styles from '../styles/components/EditPhotoStyles';
 const EditPhoto = ({setEditPhoto, setPhotoErr, setImagePresent}) => {
   const [uploading, setUploading] = useState(false);
   const [msg, setMsg] = useState('Uploading..');
@@ -109,12 +109,5 @@ const EditPhoto = ({setEditPhoto, setPhotoErr, setImagePresent}) => {
     </BottomSheet>
   );
 };
-
-const styles = StyleSheet.create({
-  btnContainer: {
-    padding: 15,
-    backgroundColor: 'white',
-  },
-});
 
 export default EditPhoto;
