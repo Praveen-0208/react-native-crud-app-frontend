@@ -1,14 +1,8 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-import Home from './src/screens/Home';
-import SignIn from './src/screens/Signin';
-import SignUp from './src/screens/Signup';
-import Profile from './src/screens/Profile';
+import StackNavigation from './src/navigations/StackNavigation';
+import TabNavigation from './src/navigations/TabNavigation';
 
 import authContext from './src/context/authContext';
 import {isTokenExpired} from './src/backendHelper/authHelper';
@@ -23,9 +17,6 @@ const App = () => {
     isTokenExpired(setIsSignedIn, setLoading);
   }, []);
 
-  const Tab = createBottomTabNavigator();
-  const Stack = createStackNavigator();
-
   return loading ? (
     <Overlay isVisible={loading}>
       <ActivityIndicator color="#0000ff" />
@@ -33,29 +24,7 @@ const App = () => {
   ) : (
     <NavigationContainer>
       <authContext.Provider value={setIsSignedIn}>
-        {isSignedIn ? (
-          <Tab.Navigator
-            screenOptions={({route}) => ({
-              tabBarIcon: ({focused, color, size}) => {
-                let iconName;
-
-                if (route.name === 'Home') {
-                  iconName = focused ? 'home' : 'home';
-                } else if (route.name === 'Profile') {
-                  iconName = focused ? 'user-circle' : 'user-circle-o';
-                }
-                return <Icon name={iconName} size={size} color={color} />;
-              },
-            })}>
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Profile" component={Profile} />
-          </Tab.Navigator>
-        ) : (
-          <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Signin" component={SignIn} />
-            <Stack.Screen name="Signup" component={SignUp} />
-          </Stack.Navigator>
-        )}
+        {isSignedIn ? <TabNavigation /> : <StackNavigation />}
       </authContext.Provider>
     </NavigationContainer>
   );
