@@ -1,118 +1,98 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useContext, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  ActivityIndicator,
-  Alert,
-} from 'react-native';
-import {
-  Button,
-  Text,
-  Input,
-  Divider,
-  Overlay,
-  Icon,
-} from 'react-native-elements';
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import {Button, Text, Input, Divider, Icon} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {SignInCall} from '../backendHelper/authHelper';
-import authContext from '../context/authContext';
+import Loader from '../components/Loader';
 import styles from '../styles/screens/SigninStyles';
-const SignIn = ({navigation}) => {
-  const setLoginFlag = useContext(authContext);
-  const [error, setError] = useState(false);
-  const [msg, setMsg] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [toggle, setToggle] = useState(false);
 
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-  });
+import {connect} from 'react-redux';
+import {
+  setEmail,
+  setPassword,
+  setShowPassword,
+  requestSignin,
+  signinSuccess,
+  signinFailure,
+  authenticateSignin,
+} from '../redux/actions/signinActions';
+import {ShowToast} from '../utils/utils';
 
-  const storeToken = async (authData) => {
-    try {
-      authData.expiredIn = Date.now() + 4 * 3600000;
-      await AsyncStorage.setItem('auth', JSON.stringify(authData));
-    } catch (err) {
-      Alert.alert('error', err.message);
-    }
-  };
-
-  const login = () => {
-    setError(false);
-    if (data.email !== '' && data.password !== '') {
-      setIsLoading(true);
-      SignInCall(data).then((responseData) => {
-        if (responseData.error) {
-          setIsLoading(false);
-          setError(true);
-          let message = responseData.error[0].msg
-            ? responseData.error[0].msg
-            : responseData.error;
-          setMsg(message);
+class SignIn extends Component {
+  constructor(props) {
+    super(props);
+  }
+  handleSignin = async () => {
+    if (this.props.login.email !== '') {
+      if (this.props.login.password !== '') {
+        let data = {
+          email: this.props.login.email,
+          password: this.props.login.password,
+        };
+        await this.props.authenticateSignin(data);
+        if (this.props.login.errorMessage !== '') {
+          ShowToast(this.props.login.errorMessage, 'SHORT', 'TOP');
         } else {
-          setIsLoading(false);
-          storeToken(responseData);
-          setLoginFlag(true);
+          // this.props.navigation.navigate('Home');
+          ShowToast('Login successful', 'SHORT', 'TOP');
         }
-      });
+      } else {
+        ShowToast('Fill password field', 'SHORT', 'BOTTOM');
+      }
     } else {
-      setError(true);
-      setMsg('Fill all fields');
+      ShowToast('Enter a valid email', 'SHORT', 'BOTTOM');
     }
   };
 
-  const loadingScreen = () => {
+  render() {
     return (
       <View>
-        <Overlay isVisible={isLoading}>
-          <ActivityIndicator color="#999999" />
-        </Overlay>
+        <View style={styles.inputContainer}>
+          <Loader isVisible={this.props.login.isLoading} />
+          <Input
+            placeholder="Email"
+            errorStyle={{color: 'red'}}
+            onChangeText={(value) => this.props.setEmail(value)}
+          />
+          <Input
+            placeholder="Password"
+            secureTextEntry={!this.props.login.showPassword}
+            rightIcon={
+              <Icon
+                name="eye"
+                type="font-awesome-5"
+                color={this.props.login.showPassword ? '#3498DB' : '#A4B0BD'}
+                onPress={() =>
+                  this.props.setShowPassword(!this.props.login.showPassword)
+                }
+              />
+            }
+            onChangeText={(value) => this.props.setPassword(value)}
+          />
+          <Button title="Signin" type="solid" onPress={this.handleSignin} />
+        </View>
+        <Divider style={styles.dividerStyle} />
+        <TouchableOpacity>
+          <Text
+            style={styles.signupText}
+            onPress={() => this.props.navigation.navigate('Signup')}>
+            Signup Here
+          </Text>
+        </TouchableOpacity>
       </View>
     );
-  };
+  }
+}
 
-  const handleChange = (value, name) => {
-    setData({...data, [name]: value});
-  };
+const mapStateToProps = (state) => ({
+  login: state.login,
+});
 
-  return (
-    <View>
-      <View style={styles.inputContainer}>
-        {loadingScreen()}
-        <Input
-          placeholder="Email"
-          errorStyle={{color: 'red'}}
-          onChangeText={(text, name = 'email') => handleChange(text, name)}
-        />
-        <Input
-          placeholder="Password"
-          secureTextEntry={!toggle}
-          rightIcon={
-            <Icon
-              name="eye"
-              type="font-awesome-5"
-              color={toggle ? '#3498DB' : '#A4B0BD'}
-              onPress={() => setToggle(!toggle)}
-            />
-          }
-          onChangeText={(text, name = 'password') => handleChange(text, name)}
-        />
-        <Text style={styles.errorMsg}>{error ? `${msg}` : ''}</Text>
-        <Button title="Signin" type="solid" onPress={login} />
-      </View>
-      <Divider style={styles.dividerStyle} />
-      <TouchableOpacity>
-        <Text
-          style={styles.signupText}
-          onPress={() => navigation.navigate('Signup')}>
-          Signup Here
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-export default SignIn;
+export default connect(mapStateToProps, {
+  setEmail,
+  setPassword,
+  setShowPassword,
+  requestSignin,
+  signinSuccess,
+  signinFailure,
+  authenticateSignin,
+})(SignIn);

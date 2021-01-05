@@ -8,6 +8,8 @@ import authContext from './src/context/authContext';
 import {isTokenExpired} from './src/backendHelper/authHelper';
 import {Overlay} from 'react-native-elements';
 import {ActivityIndicator} from 'react-native';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
 
 const App = () => {
   const [isSignedIn, setIsSignedIn] = useState('');
@@ -17,16 +19,20 @@ const App = () => {
     isTokenExpired(setIsSignedIn, setLoading);
   }, []);
 
-  return loading ? (
-    <Overlay isVisible={loading}>
-      <ActivityIndicator color="#0000ff" />
-    </Overlay>
-  ) : (
-    <NavigationContainer>
-      <authContext.Provider value={setIsSignedIn}>
-        {isSignedIn ? <TabNavigation /> : <StackNavigation />}
-      </authContext.Provider>
-    </NavigationContainer>
+  return (
+    <Provider store={store}>
+      {loading ? (
+        <Overlay isVisible={loading}>
+          <ActivityIndicator color="#0000ff" />
+        </Overlay>
+      ) : (
+        <NavigationContainer>
+          <authContext.Provider value={setIsSignedIn}>
+            {isSignedIn ? <TabNavigation /> : <StackNavigation />}
+          </authContext.Provider>
+        </NavigationContainer>
+      )}
+    </Provider>
   );
 };
 

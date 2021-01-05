@@ -1,0 +1,7 @@
+//SIGNIN
+export const SET_EMAIL = 'SET_EMAIL';
+export const SET_PASSWORD = 'SET_PASSWORD';
+export const SHOW_PASSWORD = 'SHOW_PASSWORD';
+export const REQUEST_SIGNIN = 'REQUEST_SIGNIN';
+export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
+export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';

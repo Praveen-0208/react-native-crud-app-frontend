@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native';
 import API from './backend';
 
-export const SignInCall = (data) => {
+export const SignInCall = async (data) => {
   return fetch(`${API}/signin`, {
     method: 'POST',
     headers: {
